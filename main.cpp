@@ -13,6 +13,9 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <stdio.h>      /* printf, scanf, puts, NULL */
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 using namespace std;
 
 /*
@@ -43,7 +46,7 @@ public:
         
         for(int i = 0; i < 4; i++){
             cout << "Enter the top left most coordinate of ship Y: 0-9 / X: 0-9 (no spaces) " << endl;
-            cout << "Ex: Y1 X2 = 12"
+            cout << "Ex: Y1 X2 = 12" << endl;
             int c, c1;
             cin >> c;
             cout << "Enter direction your ship is facing 'N' or 'E' " << endl;
@@ -67,6 +70,23 @@ public:
         }
     }
     
+    void aiPlace(){
+        printAiOcean();
+        int xR , yR;
+        srand(time(NULL));
+        xR = rand() % 10;
+        yR = rand() % 10;
+        bool N = rand() % 2;
+        for(int i = 0; i < 3; i++){
+            if(N == true && yR < 8){
+                
+            }
+        }
+        
+        
+        
+    }
+    
     void printPlayerOcean(){
         cout << "  ";
         for(int i = 0; i < 10; i++){
@@ -78,8 +98,24 @@ public:
             for(int j = 0; j < 10; j++){
                 cout << playerOcean[i][j] << " ";
             }
-            std::cout << endl;
+            cout << endl;
         }
+    }
+    
+    void printAiOcean(){
+        cout << "  ";
+        for(int i = 0; i < 10; i++){
+            cout << i << " ";
+        }
+        cout << endl;
+        for(int i = 0; i < 10; i++){
+            cout << i << " ";
+            for(int j = 0; j < 10; j++){
+                cout << aiOcean[i][j] << " ";
+            }
+            cout << endl;
+        }
+        
     }
     
     
@@ -97,8 +133,8 @@ int main(int argc, char** argv) {
     
     Ocean newOcean;
     
-    newOcean.playerPlace();
-    newOcean.printPlayerOcean();
+    //newOcean.playerPlace();
+    newOcean.aiPlace();
     
     
 
