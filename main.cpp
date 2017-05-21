@@ -69,8 +69,9 @@ public:
                     playerOcean[c+2][c1] = 'B';
                     playerOcean[c+3][c1] = 'B';
                     ++i;
-                }
-                
+                } else {
+                    cout << "Invalid Placement, try again" << endl;
+                } 
             } else if (d == 'E' && c1 < 7){
                 if(playerOcean[c][c1]!='B'&&playerOcean[c][c1+1]!='B'&&playerOcean[c][c1+2]!='B'&&playerOcean[c][c1+3]!='B'){
                     playerOcean[c][c1] = 'B';
@@ -78,6 +79,8 @@ public:
                     playerOcean[c][c1+2] = 'B'; 
                     playerOcean[c][c1+3] = 'B';
                     ++i;
+                } else {
+                    cout << "Invalid Placement, try again" << endl;
                 }
             } else {
                 cout << "Invalid Placement, try again" << endl;
@@ -86,6 +89,7 @@ public:
             printPlayerOcean();
             
         }while(i<4);
+        printPlayerHMOcean();
     }
     
     void aiPlace(){
@@ -114,7 +118,7 @@ public:
                     i++;
                 }
             } 
-            printAiOcean();
+            //printAiOcean();
         } while(i < 4);
         
         
@@ -128,10 +132,12 @@ public:
         int x = aC / 10;
         int y = aC%10;
         if(aiOcean[y][x] == 'B'){
-            aiOcean[y][x] == 'H';
+            aiOcean[y][x] = 'H';
+            playerHMOcean[y][x] = 'H';
             playerHits += 1;
             cout << "You hit the enemy's ship!" << endl;
-        } else{
+        } else if(aiOcean[y][x]=='~'){
+            playerHMOcean[y][x]='M';
             cout << "You missed!" << endl;
         }
         
@@ -139,17 +145,18 @@ public:
     
     void aiAttack(){
         bool notHit = false;
+        srand(time(NULL));
         do{
-            srand(time(NULL));
             int y = rand() % 10;
             int x = rand() % 10;
             if(playerOcean[y][x] == 'B'){
-                playerOcean[y][x] == 'H';
+                playerOcean[y][x] = 'H';
                 cout << "The enemy hit your battleship!" << endl;
                 aiHits += 1;
             } else if(playerOcean[y][x]== 'H'){
                 notHit = true;
-            } else {
+            } else if(playerOcean[y][x] == '~'){
+                playerOcean[y][x] = 'M';
                 cout << "The enemy missed!" << endl;
             }
         }while(notHit);
@@ -168,10 +175,6 @@ public:
             cout << i << " ";
             for(int j = 0; j < 10; j++){
                 cout << playerOcean[i][j] << " ";
-            }
-            cout << "        ";
-            for(int j = 0; j < 10; j++){
-                cout << playerHMOcean[i][j] << " ";
             }
             cout << endl;
         }
@@ -216,6 +219,44 @@ public:
             cout << endl;
         }  
     }
+    
+    void game(){
+        char playAgain = 'y';
+        while(playAgain == 'y'){
+            aiPlace();
+            playerPlace();
+            while(playerHits < 16 && aiHits < 16){
+                playerAttack();
+                if(playerHits >= 16){
+                    cout << "You Win!!! Play Again? y/n";
+                    cin >> playAgain;
+                    if(playAgain =='n'){
+                        exit(0);
+                    } else if(playAgain != 'n' || playAgain != 'y'){
+                        cout << "That's not a 'y' or 'n' enter either or to quit or play again" << endl;
+                        cin >> playAgain;
+                    }
+                    continue;
+                }
+                aiAttack();
+                if(aiHits >= 16){
+                    cout << "You Lose :( . Play Again? y/n";
+                    cin >> playAgain;
+                    if(playAgain =='n'){
+                        exit(0);
+                    } else if(playAgain != 'n' || playAgain != 'y'){
+                        cout << "That's not a 'y' or 'n' enter either or to quit or play again" << endl;
+                        cin >> playAgain;
+                    }
+                    continue;    
+                }
+                printPlayerHMOcean();
+            }
+        }
+    }
+    
+    
+    
 };
 
 
@@ -229,7 +270,8 @@ int main(int argc, char** argv) {
     
     //newOcean.playerPlace();
     //newOcean.aiPlace();
-    newOcean.printPlayerHMOcean();
+    //newOcean.printPlayerHMOcean();
+    newOcean.game();
     
     
 
