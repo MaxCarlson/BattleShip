@@ -27,6 +27,9 @@ class Ocean
 public:
     char playerOcean[10][10];
     char aiOcean[10][10];
+    char playerHMOcean[10][10];
+    int playerHits = 0;
+    int aiHits = 0;
     
     Ocean(){
         for(int i= 0; i < 10; i++){
@@ -37,6 +40,11 @@ public:
         for(int i= 0; i < 10; i++){
             for(int j = 0; j < 10; j++){
                 aiOcean[i][j] = '~';
+            }
+        }
+        for(int i= 0; i < 10; i++){
+            for(int j = 0; j < 10; j++){
+                playerHMOcean[i][j] = '~';
             }
         }
     }
@@ -113,6 +121,43 @@ public:
         
     }
     
+    void playerAttack(){
+        cout << "Enter attack coordinate, no spaces x/y" << endl;
+        int aC;
+        cin >> aC;
+        int x = aC / 10;
+        int y = aC%10;
+        if(aiOcean[y][x] == 'B'){
+            aiOcean[y][x] == 'H';
+            playerHits += 1;
+            cout << "You hit the enemy's ship!" << endl;
+        } else{
+            cout << "You missed!" << endl;
+        }
+        
+    }
+    
+    void aiAttack(){
+        bool notHit = false;
+        do{
+            srand(time(NULL));
+            int y = rand() % 10;
+            int x = rand() % 10;
+            if(playerOcean[y][x] == 'B'){
+                playerOcean[y][x] == 'H';
+                cout << "The enemy hit your battleship!" << endl;
+                aiHits += 1;
+            } else if(playerOcean[y][x]== 'H'){
+                notHit = true;
+            } else {
+                cout << "The enemy missed!" << endl;
+            }
+        }while(notHit);
+        
+    }
+    
+    
+    
     void printPlayerOcean(){
         cout << "  ";
         for(int i = 0; i < 10; i++){
@@ -123,6 +168,10 @@ public:
             cout << i << " ";
             for(int j = 0; j < 10; j++){
                 cout << playerOcean[i][j] << " ";
+            }
+            cout << "        ";
+            for(int j = 0; j < 10; j++){
+                cout << playerHMOcean[i][j] << " ";
             }
             cout << endl;
         }
@@ -142,7 +191,31 @@ public:
             cout << endl;
         }
         
-    }  
+    }
+    void printPlayerHMOcean(){ //player ocean + hit miss ocean
+        cout << "Player Ocean" << "                " << "Player Hits Ocean" << endl;
+        cout << "  ";
+        for(int i = 0; i < 10; i++){
+            cout << i << " ";
+        }
+        cout << "        ";
+        for(int i = 0; i < 10; i++){
+            cout << i << " ";
+        }
+        cout << endl;
+        for(int i = 0; i < 10; i++){
+            cout << i << " ";
+            for(int j = 0; j < 10; j++){
+                cout << playerOcean[i][j] << " ";
+            }
+            cout << "      ";
+            cout << i << " ";
+            for(int j = 0; j < 10; j++){
+                cout << playerHMOcean[i][j] << " ";
+            }
+            cout << endl;
+        }  
+    }
 };
 
 
@@ -155,7 +228,8 @@ int main(int argc, char** argv) {
     Ocean newOcean;
     
     //newOcean.playerPlace();
-    newOcean.aiPlace();
+    //newOcean.aiPlace();
+    newOcean.printPlayerHMOcean();
     
     
 
