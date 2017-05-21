@@ -42,46 +42,72 @@ public:
     }
     
     void playerPlace(){
-        cout << "Place your four battle ships! (battleship length of three)" << endl;
-        
-        for(int i = 0; i < 4; i++){
-            cout << "Enter the top left most coordinate of ship Y: 0-9 / X: 0-9 (no spaces) " << endl;
+        cout << "Place your four battle ships! (battleship length of four)" << endl;
+        int i = 0;
+        do{
+            cout << "Enter the top left most coordinate of ship X: 0-9 / Y: 0-9 (no spaces) " << endl;
             cout << "Ex: Y1 X2 = 12" << endl;
             int c, c1;
             cin >> c;
             cout << "Enter direction your ship is facing 'N' or 'E' " << endl;
             char d;
             cin >> d;
-            c1 = c%10;
-            c /= 10;
-            if(d == 'N'){
-                playerOcean[c][c1] = 'B';
-                playerOcean[c+1][c1] = 'B';
-                playerOcean[c+2][c1] = 'B';
+            c1 = c / 10;
+            c = c%10;
+            if(d == 'N' && c < 7){
+                if(playerOcean[c][c1]!='B'&&playerOcean[c+1][c1]!='B'&&playerOcean[c+2][c1]!='B'&&playerOcean[c+3][c1]!='B'){
+                    playerOcean[c][c1] = 'B';
+                    playerOcean[c+1][c1] = 'B';
+                    playerOcean[c+2][c1] = 'B';
+                    playerOcean[c+3][c1] = 'B';
+                    ++i;
+                }
                 
-            } else if (d == 'E'){
-                playerOcean[c][c1] = 'B';
-                playerOcean[c][c1+1] = 'B';
-                playerOcean[c][c1+2] = 'B'; 
+            } else if (d == 'E' && c1 < 7){
+                if(playerOcean[c][c1]!='B'&&playerOcean[c][c1+1]!='B'&&playerOcean[c][c1+2]!='B'&&playerOcean[c][c1+3]!='B'){
+                    playerOcean[c][c1] = 'B';
+                    playerOcean[c][c1+1] = 'B';
+                    playerOcean[c][c1+2] = 'B'; 
+                    playerOcean[c][c1+3] = 'B';
+                    ++i;
+                }
+            } else {
+                cout << "Invalid Placement, try again" << endl;
             }
             
             printPlayerOcean();
             
-        }
+        }while(i<4);
     }
     
     void aiPlace(){
         printAiOcean();
-        int xR , yR;
+        int xR , yR, i = 0;
         srand(time(NULL));
-        xR = rand() % 10;
-        yR = rand() % 10;
-        bool N = rand() % 2;
-        for(int i = 0; i < 3; i++){
-            if(N == true && yR < 8){
-                
-            }
-        }
+
+        do{
+            xR = rand() % 10;
+            yR = rand() % 10;
+            bool N = rand() % 2;
+            if(N == true && yR < 7){
+                if(aiOcean[yR][xR] != 'B' && aiOcean[yR+1][xR]!= 'B'&& aiOcean[yR+2][xR]!='B'&&aiOcean[yR+3][xR]!='B'){
+                    aiOcean[yR][xR] = 'B';
+                    aiOcean[yR+1][xR] = 'B';
+                    aiOcean[yR+2][xR] = 'B';
+                    aiOcean[yR+3][xR] = 'B';
+                    i++;
+                }
+            } else if(N == false && xR < 7){
+                if(aiOcean[yR][xR] != 'B' && aiOcean[yR][xR+1]!= 'B'&& aiOcean[yR][xR+2]!='B'&&aiOcean[yR][xR+3]!='B'){
+                    aiOcean[yR][xR] = 'B';
+                    aiOcean[yR][xR+1] = 'B';
+                    aiOcean[yR][xR+2] = 'B';
+                    aiOcean[yR][xR+3] = 'B';
+                    i++;
+                }
+            } 
+            printAiOcean();
+        } while(i < 4);
         
         
         
@@ -116,12 +142,7 @@ public:
             cout << endl;
         }
         
-    }
-    
-    
-    
-    
-    
+    }  
 };
 
 
