@@ -153,11 +153,13 @@ public:
                 playerOcean[y][x] = 'H';
                 cout << "The enemy hit your battleship!" << endl;
                 aiHits += 1;
+                notHit = false;
             } else if(playerOcean[y][x]== 'H'){
                 notHit = true;
             } else if(playerOcean[y][x] == '~'){
                 playerOcean[y][x] = 'M';
                 cout << "The enemy missed!" << endl;
+                notHit = false;
             }
         }while(notHit);
         
@@ -233,7 +235,7 @@ public:
                     if(playAgain =='n'){
                         exit(0);
                     } else if(playAgain != 'n' || playAgain != 'y'){
-                        cout << "That's not a 'y' or 'n' enter either or to quit or play again" << endl;
+                        cout << "That's not a 'y' or 'n' enter either or to play again or quit" << endl;
                         cin >> playAgain;
                     }
                     continue;
@@ -245,7 +247,7 @@ public:
                     if(playAgain =='n'){
                         exit(0);
                     } else if(playAgain != 'n' || playAgain != 'y'){
-                        cout << "That's not a 'y' or 'n' enter either or to quit or play again" << endl;
+                        cout << "That's not a 'y' or 'n' enter either or to play again or quit" << endl;
                         cin >> playAgain;
                     }
                     continue;    
