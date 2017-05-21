@@ -16,6 +16,7 @@
 #include <stdio.h>      /* printf, scanf, puts, NULL */
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
+#include <ctype.h>
 using namespace std;
 
 /*
@@ -54,7 +55,7 @@ public:
         int i = 0;
         do{
             cout << "Enter the top left most coordinate of ship X: 0-9 / Y: 0-9 (no spaces) " << endl;
-            cout << "Ex: Y1 X2 = 12" << endl;
+            cout << "Ex: X=1 Y=2 = 12" << endl;
             int c, c1;
             cin >> c;
             cout << "Enter direction your ship is facing 'N' or 'E' " << endl;
@@ -62,7 +63,7 @@ public:
             cin >> d;
             c1 = c / 10;
             c = c%10;
-            if(d == 'N' && c < 7){
+            if(tolower(d) == 'n' && c < 7){
                 if(playerOcean[c][c1]!='B'&&playerOcean[c+1][c1]!='B'&&playerOcean[c+2][c1]!='B'&&playerOcean[c+3][c1]!='B'){
                     playerOcean[c][c1] = 'B';
                     playerOcean[c+1][c1] = 'B';
@@ -72,7 +73,7 @@ public:
                 } else {
                     cout << "Invalid Placement, try again" << endl;
                 } 
-            } else if (d == 'E' && c1 < 7){
+            } else if (tolower(d) == 'e' && c1 < 7){
                 if(playerOcean[c][c1]!='B'&&playerOcean[c][c1+1]!='B'&&playerOcean[c][c1+2]!='B'&&playerOcean[c][c1+3]!='B'){
                     playerOcean[c][c1] = 'B';
                     playerOcean[c][c1+1] = 'B';
@@ -164,6 +165,7 @@ public:
         }while(notHit);
         
     }
+    
     
     
     
