@@ -127,20 +127,31 @@ public:
     }
     
     void playerAttack(){
-        cout << "Enter attack coordinate, no spaces x/y" << endl;
-        int aC;
-        cin >> aC;
-        int x = aC / 10;
-        int y = aC%10;
-        if(aiOcean[y][x] == 'B'){
-            aiOcean[y][x] = 'H';
-            playerHMOcean[y][x] = 'H';
-            playerHits += 1;
-            cout << "You hit the enemy's ship!" << endl;
-        } else if(aiOcean[y][x]=='~'){
-            playerHMOcean[y][x]='M';
-            cout << "You missed!" << endl;
-        }
+        bool invalid = false;
+        do{
+            cout << "Enter attack coordinate, no spaces x/y" << endl;
+            int aC;
+            cin >> aC;
+            int x = aC / 10;
+            int y = aC%10;
+            if(aiOcean[y][x] == 'B'){
+                aiOcean[y][x] = 'H';
+                playerHMOcean[y][x] = 'H';
+                playerHits += 1;
+                cout << "You hit the enemy's ship!" << endl;
+                invalid = false;
+            } else if(aiOcean[y][x]=='~'){
+                playerHMOcean[y][x]='M';
+                cout << "You missed!" << endl;
+                invalid = false;
+            } else if(aiOcean[y][x]=='H' || aiOcean[y][x] == 'M'){
+                cout << "You've already shot there, enter a valid coordinate" << endl;
+                invalid = true;
+            } else{
+                cout << "Invalid coordinate, please enter two non space separated values. Ex: 11" << endl;
+                invalid = true;
+            }
+        }while(invalid);
         
     }
     
